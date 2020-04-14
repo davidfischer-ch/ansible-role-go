@@ -1,0 +1,11 @@
+do_become: yes
+
+go_download_environment: {}
+# go_release_checksum: sha256:6272d6e940ecb71ea5636ddb5fab3933e087c1356173c61f4a803895e947ebb3
+go_release_url: https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz
+
+go_environment_file: /etc/profile
+go_path: '{{ go_root }}'
+go_root: /usr/local/go
+
+# go_version: 1.14.2

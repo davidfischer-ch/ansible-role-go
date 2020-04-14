@@ -1,0 +1,34 @@
+# Install Go runtime
+---
+
+- block:
+    - name: Download Go release package
+      get_url:
+        url: '{{ go_release_url }}'
+        dest: '{{ local_source_directory }}/{{ go_release_url|basename }}'
+        checksum: '{{ go_release_checksum }}'
+      environment: '{{ go_download_environment }}'
+
+    - name: Extract Go release
+      unarchive:
+        src: '{{ local_source_directory }}/{{ go_release_url|basename }}'
+        dest: '{{ go_root|dirname }}'
+        copy: no
+
+    - name: Set GOPATH environment variable
+      lineinfile:
+        path: '{{ go_environment_file }}'
+        line: GOPATH={{ go_path }}
+        regexp: ^GOPATH\s*=
+        state: present
+        create: yes
+
+    - name: Set GOROOT environment variable
+      lineinfile:
+        path: '{{ go_environment_file }}'
+        line: GOROOT={{ go_root }}
+        regexp: ^GOROOT\s*=
+        state: present
+        create: yes
+  become: '{{ do_become }}'
+  tags: [go, packages]
